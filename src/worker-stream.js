@@ -1,12 +1,14 @@
 var Duplex = require('readable-stream').Duplex
 var inherits = require('inherits');
 
-var WorkerStream = function(worker) {
+var WorkerStream = module.exports = function(worker) {
   if (!(this instanceof WorkerStream)) {
     return new WorkerStream(worker);
   }
 
-  Duplex.call(this);
+  Duplex.call(this, {
+    objectMode: true
+  });
 
   this.worker = worker || self;
   this._holding = [];
@@ -33,12 +35,14 @@ WorkerStream.prototype._read = function(size, tryit) {
   }
 };
 
-WorkerStream.prototype._write = function(chunk) {
+WorkerStream.prototype._write = function(chunk, enc, fn) {
   this.worker.postMessage(chunk);
 
-  if (this.state.pipesCount) {
+  if (this._readableState.pipesCount) {
     this._holding.push(chunk);
   }
 
   this._read(this._readableState.highWaterMark, true);
+
+  fn();
 };
