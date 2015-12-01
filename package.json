@@ -1,6 +1,6 @@
 {
   "name": "worker-stream",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "BSD-3-Clause",
   "main": "src/worker-stream.js",
   "description": "use HTML5 web workers with the node stream API",
@@ -19,6 +19,9 @@
   "scripts": {},
   "dependencies": {
     "inherits": "^2.0.1",
+    "lodash.bind": "^3.1.0",
+    "lodash.isfunction": "^3.0.6",
+    "lodash.isplainobject": "^3.2.0",
     "readable-stream": "^2.0.4"
   },
   "devDependencies": {
